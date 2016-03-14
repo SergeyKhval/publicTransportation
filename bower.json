@@ -1,0 +1,11 @@
+{
+  "name": "publictransportation",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "~4.0.0-alpha.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  }
+}
