@@ -24,7 +24,7 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    {{1+1}}
+    <div ng-controller="mainController"></div>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
@@ -50,6 +50,8 @@
 
     <!-- build:js scripts/main.js -->
     <script src="scripts/main.js"></script>
+    <script src="scripts/services/sw.js"></script>
+    <script src="scripts/controllers/main.js"></script>
     <!-- endbuild -->
   </body>
 </html>
