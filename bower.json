@@ -2,6 +2,7 @@
   "name": "publictransportation",
   "private": true,
   "dependencies": {
+    "angular": "^1.5.0",
     "tether": "^1.2.0",
     "bootstrap": "~4.0.0-alpha.2"
   },
