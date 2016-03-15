@@ -1,5 +1,5 @@
 angular.module('pubTran')
-  .controller('mainController', function (Sw) {
+  .controller('mainController', function (Sw, Gtfs) {
     var workerReg;
 
     Sw.initWorker().then(function (reg) {
@@ -10,5 +10,9 @@ angular.module('pubTran')
       console.log('failed to register worker');
     });
 
-
+    Gtfs.getLocations().then(function(response){
+      return (response.text());
+    }).then(function(data){
+      console.log(jQuery.parseXML(data));
+    })
   });
