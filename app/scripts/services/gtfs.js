@@ -3,7 +3,7 @@ angular.module('pubTran')
     var GTFS = {};
 
     GTFS.getLocations = function(){
-      return fetch('http://api.bart.gov/api/etd.aspx?cmd=etd&orig=12th&key=MW9S-E7SL-26DU-VV8V');
+      return fetch('http://api.bart.gov/api/sched.aspx?cmd=depart&orig=24th&dest=rock&key=MW9S-E7SL-26DU-VV8V');
     };
 
     return GTFS;
