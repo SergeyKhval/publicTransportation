@@ -62,6 +62,22 @@
               </div>
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <ul class="list-unstyled">
+                <li ng-repeat="schedule in schedules">
+                  {{schedule._origTimeMin}} - {{schedule._destTimeMin}}
+
+                  <div ng-if="schedule.leg.length > 1">
+                    <p ng-repeat="l in schedule.leg">
+                      {{l._origTimeMin}} {{l._origin}} - {{l._destination}} {{l._destTimeMin}}
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>

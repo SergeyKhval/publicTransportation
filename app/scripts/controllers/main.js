@@ -10,8 +10,7 @@ angular.module('pubTran')
 
     $scope.getSchedule = function(){
       Schedule.getSchedule($scope.selectedDeparture.abbr, $scope.selectedArrival.abbr).then(function(data){
-        $scope.schedule = data.root.schedule.request.trip;
-        console.log($scope.schedule);
+        $scope.schedules = data.root.schedule.request.trip;
       });
     }
   });
