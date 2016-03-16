@@ -1,5 +1,5 @@
 angular.module('pubTran')
-  .factory('Idb', function(IdbName, IdbVersion){
+  .factory('Idb', function(idbName, idbVersion){
     var Idb = {};
 
     Idb.openConnection = function(){
@@ -9,7 +9,7 @@ angular.module('pubTran')
         return Promise.resolve();
       }
 
-      return Idb.open(IdbName, IdbVersion, function(upgradeDb){
+      return idb.open(idbName, idbVersion, function(upgradeDb){
         upgradeDb.createObjectStore('stations', {keyPath: 'abbr'});
       });
     };
