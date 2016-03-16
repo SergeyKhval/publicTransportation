@@ -4,6 +4,5 @@ angular.module('pubTran')
       $scope.stations = data.root.stations.station;
       $scope.selectedDeparture = $scope.stations[0];
       $scope.selectedArrival = $scope.stations[0];
-      $scope.$apply();
     });
   });
