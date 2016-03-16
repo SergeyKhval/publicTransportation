@@ -43,19 +43,23 @@
         </div>
         <div class="card-block" ng-controller="mainController">
           <div class="row">
-            <div class="col-xs-3">
-              <label for="departure">Departure station</label>
-              <select name="departure" id="departure" class="form-control"
-                      ng-options="station as station.name for station in stations" ng-model="selectedDeparture"></select>
+            <div class="col-md-3">
+              <div class="form-group"><label class="form-control-label p-l-0" for="departure">Departure
+                station</label>
+                <select name="departure" id="departure" class="c-select"
+                        ng-options="station as station.name for station in stations"
+                        ng-model="selectedDeparture"></select></div>
             </div>
-            <div class="col-xs-3">
-              <label for="arrival">Arrival station:</label>
-              <select name="arrival" id="arrival" class="form-control"
-                      ng-options="station as station.name for station in stations" ng-model="selectedArrival"></select>
+            <div class="col-md-3">
+              <div class="form-group"><label class="form-control-label p-l-0" for="arrival">Arrival station:</label>
+                <select name="arrival" id="arrival" class="c-select"
+                        ng-options="station as station.name for station in stations"
+                        ng-model="selectedArrival"></select></div>
             </div>
-            <div class="col-xs-3">
-              <label>Ready to go? Push the button</label>
-              <button class="btn btn-primary btn-primary-outline btn-sm">Find schedule</button>
+            <div class="col-md-3">
+              <div class="form-group"><label class="form-control-label p-l-0">Ready to go? Push the button</label>
+                <button class="btn btn-primary btn-primary-outline">Find schedule</button>
+              </div>
             </div>
           </div>
         </div>
