@@ -1,5 +1,7 @@
 var resourcesToCache = [
-  'styles/main.css'
+  'styles/main.css',
+  'scripts/vendor.js',
+  'scripts/main.js'
 ];
 
 var staticCacheName = 'pubTran-static-v1';
