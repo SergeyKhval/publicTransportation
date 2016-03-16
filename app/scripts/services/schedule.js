@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pubTran')
-  .factory('Schedule', function ($http, x2js, bartKey) {
+  .factory('Schedule', ['$http', 'x2js', 'bartKey', function ($http, x2js, bartKey) {
     var Schedule = {};
 
     Schedule.getSchedule = function (departureStation, arrivalStation) {
@@ -16,4 +16,4 @@ angular.module('pubTran')
     };
 
     return Schedule;
-  });
+  }]);

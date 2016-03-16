@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pubTran')
-  .factory('Stations', function ($http, x2js, bartKey, Idb) {
+  .factory('Stations', ['$http', 'x2js', 'bartKey', 'Idb', function ($http, x2js, bartKey, Idb) {
     var Stations = {};
     var dbPromise = Idb.openConnection();
 
@@ -30,4 +30,4 @@ angular.module('pubTran')
     };
 
     return Stations;
-  });
+  }]);
