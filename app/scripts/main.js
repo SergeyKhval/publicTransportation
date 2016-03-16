@@ -1,6 +1,6 @@
 angular.module('pubTran', [
-  'ngAnimate ',
-  'ngTouch ',
+  'ngAnimate',
+  'ngTouch',
   'ui.bootstrap',
   'cb.x2js'
 ]);

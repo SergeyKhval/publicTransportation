@@ -37,7 +37,7 @@
       <div class="row">
         <div class="col-xs-3">
           <div ng-controller="mainController">
-            <select name="departure" id="departure" class="form-control" ng-options="station as station.abbr for station in stations" ng-model="selected"></select>
+            <select name="departure" id="departure" class="form-control" ng-options="station as station.name for station in stations" ng-model="selected"></select>
           </div>
         </div>
       </div>
@@ -56,11 +56,13 @@
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-animate/angular-animate.js"></script>
     <script src="/bower_components/tether/dist/js/tether.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="/bower_components/x2js/xml2json.min.js"></script>
     <script src="/bower_components/angular-x2js/dist/x2js.min.js"></script>
     <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/bower_components/angular-touch/angular-touch.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
