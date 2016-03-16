@@ -38,6 +38,11 @@
         2,
         "single"
       ]
+    },
+    "globals": {
+      "angular": true,
+      "idb": true
+
     }
   }
 }

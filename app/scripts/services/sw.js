@@ -1,3 +1,4 @@
+/*eslint consistent-return: 1*/
 'use strict';
 
 angular.module('pubTran')

@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('pubTran')
   .factory('Stations', function ($http, x2js, bartKey, Idb) {
     var Stations = {};
@@ -11,14 +13,16 @@ angular.module('pubTran')
         var stations = x2js.xml_str2json(response.data).root.stations.station;
 
         dbPromise.then(function (db) {
-          if (!db) return;
+          if (!db) {
+            return;
+          }
 
           var tx = db.transaction('stations', 'readwrite');
           var stationsStore = tx.objectStore('stations');
 
-          stations.forEach(function(station){
+          stations.forEach(function (station) {
             stationsStore.put(station);
-          })
+          });
         });
 
         return stations;

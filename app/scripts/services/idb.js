@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('pubTran')
   .factory('Idb', function(idbName, idbVersion){
     var Idb = {};
