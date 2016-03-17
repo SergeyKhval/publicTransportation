@@ -10,7 +10,7 @@ angular.module('pubTran')
         return;
       }
 
-      return navigator.serviceWorker.register('/Sw.js').then(function (reg) {
+      return navigator.serviceWorker.register('/sw.js').then(function (reg) {
         console.log('registered worker with scope: ', reg.scope);
         return reg;
       }).catch(function () {
