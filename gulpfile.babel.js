@@ -61,6 +61,15 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('htmlViews', ['styles', 'scripts'], () => {
+  return gulp.src('app/views/*.html')
+    .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
+    .pipe($.if('*.js', $.uglify()))
+    .pipe($.if('*.css', $.cssnano()))
+    .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
+    .pipe(gulp.dest('dist/views'));
+});
+
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
     .pipe($.cache($.imagemin({
@@ -78,6 +87,11 @@ gulp.task('fonts', () => {
     .concat('app/fonts/**/*'))
     .pipe(gulp.dest('.tmp/fonts'))
     .pipe(gulp.dest('dist/fonts'));
+});
+
+gulp.task('copyFonts', function() {
+  gulp.src('./bower_components/font-awesome/fonts/**/*.{ttf,woff,eof,svg}')
+    .pipe(gulp.dest('dist/bower_components/font-awesome/fonts'));
 });
 
 gulp.task('extras', () => {
@@ -160,7 +174,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'htmlViews', 'images', 'fonts', 'copyFonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
