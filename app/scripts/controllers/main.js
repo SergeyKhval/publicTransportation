@@ -2,10 +2,15 @@
 
 angular.module('pubTran')
   .controller('mainController', ['$scope', 'Stations', 'Schedule', function ($scope, Stations, Schedule) {
+
+    $scope.loading = true;
+
     Stations.getAll().then(function (data) {
       $scope.stations = data;
       $scope.selectedDeparture = $scope.stations[0];
       $scope.selectedArrival = $scope.stations[0];
+
+      $scope.loading = false;
     });
 
     $scope.getSchedule = function () {

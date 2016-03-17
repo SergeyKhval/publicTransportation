@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h3>Please, choose your departure and arrival stations</h3>
+      </div>
+      <div class="card-block">
+        <div class="loading text-xs-center" ng-show="loading">
+          <i class="fa fa-spinner"></i>
+        </div>
+        <div class="row" ng-hide="loading">
+          <div class="col-md-3">
+            <div class="form-group"><label class="form-control-label p-l-0" for="departure">Departure
+              station</label>
+              <select name="departure" id="departure" class="c-select"
+                      ng-options="station as station.name for station in stations"
+                      ng-model="selectedDeparture"></select></div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group"><label class="form-control-label p-l-0" for="arrival">Arrival station:</label>
+              <select name="arrival" id="arrival" class="c-select"
+                      ng-options="station as station.name for station in stations"
+                      ng-model="selectedArrival"></select></div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group"><label class="form-control-label p-l-0">Ready to go? Push the button</label>
+              <button class="btn btn-primary btn-primary-outline" ng-click="getSchedule()">Find schedule</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <ul class="list-unstyled">
+              <li ng-repeat="schedule in schedules">
+                {{schedule._origTimeMin}} - {{schedule._destTimeMin}}
+
+                <div ng-if="schedule.leg.length > 1">
+                  <p ng-repeat="l in schedule.leg">
+                    {{l._origTimeMin}} {{l._origin}} - {{l._destination}} {{l._destTimeMin}}
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
