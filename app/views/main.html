@@ -26,7 +26,12 @@
           </div>
           <div class="col-md-3">
             <div class="form-group"><label class="form-control-label p-l-0">Ready to go? Push the button</label>
-              <button class="btn btn-primary btn-primary-outline" ng-click="getSchedule()">Find schedule</button>
+              <button class="btn btn-primary btn-primary-outline" ng-click="getRealTimeSchedule()">Find schedule</button>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group"><label class="form-control-label p-l-0">Ready to go? Push the button</label>
+              <button class="btn btn-primary btn-primary-outline" ng-click="getStationSchedule()">Find schedule</button>
             </div>
           </div>
 
@@ -51,6 +56,17 @@
                 </div>
               </li>
             </ul>
+          </div>
+        </div>
+
+        <div class="row" ng-show="stationSchedule">
+          <div class="col-xs-12">
+            <ul>
+              <li ng-repeat="item in stationSchedulePage">
+                {{item._origTime}}
+              </li>
+            </ul>
+            <uib-pagination direction-links="false" boundary-link-numbers="true" total-items="totalItems" max-size="5" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
           </div>
         </div>
       </div>
