@@ -8,18 +8,20 @@
         <div class="loading text-xs-center" ng-show="loadingForm">
           <i class="fa fa-spinner"></i>
         </div>
-        <div class="row" ng-hide="loading">
+        <div class="row" ng-hide="loadingForm">
           <div class="col-md-3">
             <div class="form-group"><label class="form-control-label p-l-0" for="departure">Departure
               station</label>
               <select name="departure" id="departure" class="c-select"
                       ng-options="station as station.name for station in stations"
+                      ng-change="validate()"
                       ng-model="selectedDeparture"></select></div>
           </div>
           <div class="col-md-3">
             <div class="form-group"><label class="form-control-label p-l-0" for="arrival">Arrival station:</label>
               <select name="arrival" id="arrival" class="c-select"
                       ng-options="station as station.name for station in stations"
+                      ng-change="validate()"
                       ng-model="selectedArrival"></select></div>
           </div>
           <div class="col-md-3">

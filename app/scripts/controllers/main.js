@@ -10,7 +10,7 @@ angular.module('pubTran')
     Stations.getAll().then(function (data) {
       $scope.stations = data;
       $scope.selectedDeparture = $scope.stations[0];
-      $scope.selectedArrival = $scope.stations[0];
+      $scope.selectedArrival = $scope.stations[1];
 
       $scope.loadingForm = false;
     });
@@ -18,10 +18,9 @@ angular.module('pubTran')
     $scope.getSchedule = function () {
       $scope.loadingSchedules = true;
       $scope.schedules = {};
-      $scope.error = '';
 
       if($scope.selectedDeparture.abbr === $scope.selectedArrival.abbr){
-        $scope.error = 'Please, select different departure and arrival stations';
+        $scope.loadingSchedules = false;
         return;
       }
 
@@ -30,4 +29,12 @@ angular.module('pubTran')
         $scope.loadingSchedules = false;
       });
     };
+
+    $scope.validate = function(){
+      $scope.error = '';
+
+      if($scope.selectedDeparture.abbr === $scope.selectedArrival.abbr){
+        $scope.error = 'Please, select different departure and arrival stations';
+      }
+    }
   }]);
