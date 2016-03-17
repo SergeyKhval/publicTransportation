@@ -17,22 +17,22 @@ angular.module('pubTran')
       $scope.selectedDeparture = $scope.stations[0];
       $scope.selectedArrival = $scope.stations[1];
 
+      $scope.getRealTimeSchedule();
+
       $scope.loadingForm = false;
     });
 
     $scope.validate = function () {
-      $scope.error = '';
 
-      if ($scope.selectedDeparture.abbr === $scope.selectedArrival.abbr) {
-        $scope.error = 'Please, select different departure and arrival stations';
-      }
     };
 
     $scope.getRealTimeSchedule = function () {
       $scope.loadingSchedules = true;
       $scope.schedules = {};
+      $scope.error = '';
 
       if ($scope.selectedDeparture.abbr === $scope.selectedArrival.abbr) {
+        $scope.error = 'Please, select different departure and arrival stations';
         $scope.loadingSchedules = false;
         return;
       }
