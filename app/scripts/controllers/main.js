@@ -2,10 +2,13 @@
 
 angular.module('pubTran')
   .controller('mainController', ['$scope', 'Stations', 'Schedule', function ($scope, Stations, Schedule) {
-    var itemsPerStationSchedulePage = 10;
+    var paginationDefaultCount = 10;
+    var itemsPerStationSchedulePage = 20;
+    var paginationLength = paginationDefaultCount / itemsPerStationSchedulePage;
 
     $scope.loadingForm = true;
     $scope.loadingSchedules = false;
+    $scope.loadingStationSchedules = false;
     $scope.error = '';
     $scope.currentPage = 1;
 
@@ -37,21 +40,29 @@ angular.module('pubTran')
       Schedule.getRealTimeSchedule($scope.selectedDeparture.abbr, $scope.selectedArrival.abbr).then(function (data) {
         $scope.schedules = data.root.schedule.request.trip;
         $scope.loadingSchedules = false;
+        console.log($scope.schedules);
       });
     };
 
     $scope.getStationSchedule = function () {
+      $scope.loadingStationSchedules = true;
+
       Schedule.getStationSchedule($scope.selectedDeparture.abbr).then(function (data) {
         $scope.currentPage = 1;
         $scope.stationSchedule = data.root.station.item;
         $scope.stationSchedulePage = $scope.stationSchedule.slice(0, itemsPerStationSchedulePage);
-        $scope.totalItems = $scope.stationSchedule.length;
+        $scope.totalItems = $scope.stationSchedule.length * paginationLength;
         console.log($scope.stationSchedule);
+
+        $scope.loadingStationSchedules = false;
       });
     };
 
     $scope.pageChanged = function () {
-      $scope.stationSchedulePage = $scope.stationSchedule.slice(itemsPerStationSchedulePage * ($scope.currentPage - 1), itemsPerStationSchedulePage * ($scope.currentPage - 1) + itemsPerStationSchedulePage);
+      var begin = itemsPerStationSchedulePage * ($scope.currentPage - 1);
+      var end = begin + itemsPerStationSchedulePage;
+
+      $scope.stationSchedulePage = $scope.stationSchedule.slice(begin, end);
     }
 
 
