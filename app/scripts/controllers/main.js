@@ -3,7 +3,8 @@
 angular.module('pubTran')
   .controller('mainController', ['$scope', 'Stations', 'Schedule', function ($scope, Stations, Schedule) {
 
-    $scope.loading = true;
+    $scope.loadingForm = true;
+    $scope.loadingSchedules = false;
     $scope.error = '';
 
     Stations.getAll().then(function (data) {
@@ -11,10 +12,11 @@ angular.module('pubTran')
       $scope.selectedDeparture = $scope.stations[0];
       $scope.selectedArrival = $scope.stations[0];
 
-      $scope.loading = false;
+      $scope.loadingForm = false;
     });
 
     $scope.getSchedule = function () {
+      $scope.loadingSchedules = true;
       $scope.schedules = {};
       $scope.error = '';
 
@@ -25,6 +27,7 @@ angular.module('pubTran')
 
       Schedule.getSchedule($scope.selectedDeparture.abbr, $scope.selectedArrival.abbr).then(function (data) {
         $scope.schedules = data.root.schedule.request.trip;
+        $scope.loadingSchedules = false;
       });
     };
   }]);

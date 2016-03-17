@@ -5,7 +5,7 @@
         <h3>Please, choose your departure and arrival stations</h3>
       </div>
       <div class="card-block">
-        <div class="loading text-xs-center" ng-show="loading">
+        <div class="loading text-xs-center" ng-show="loadingForm">
           <i class="fa fa-spinner"></i>
         </div>
         <div class="row" ng-hide="loading">
@@ -34,7 +34,10 @@
         </div>
 
         <div class="row">
-          <div class="col-xs-12">
+          <div class="loading text-xs-center" ng-show="loadingSchedules">
+            <i class="fa fa-spinner"></i>
+          </div>
+          <div class="col-xs-12" ng-hide="loadingSchedules">
             <ul class="list-unstyled">
               <li ng-repeat="schedule in schedules">
                 {{schedule._origTimeMin}} - {{schedule._destTimeMin}}
