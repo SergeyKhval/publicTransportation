@@ -26,6 +26,17 @@ angular.module('pubTran')
         });
 
         return stations;
+      }).catch(function(){
+        return dbPromise.then(function (db) {
+          if (!db) {
+            return;
+          }
+
+          var tx = db.transaction('stations');
+          var stationsStore = tx.objectStore('stations');
+
+          return stationsStore.getAll();
+        });
       });
     };
 
