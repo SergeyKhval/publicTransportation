@@ -27,6 +27,10 @@
               <button class="btn btn-primary btn-primary-outline" ng-click="getSchedule()">Find schedule</button>
             </div>
           </div>
+
+          <div class="col-xs-12" ng-show="error">
+            <p class="bg-danger">{{error}}</p>
+          </div>
         </div>
 
         <div class="row">
