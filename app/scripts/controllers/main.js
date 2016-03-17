@@ -63,7 +63,7 @@ angular.module('pubTran')
       var end = begin + itemsPerStationSchedulePage;
 
       $scope.stationSchedulePage = $scope.stationSchedule.slice(begin, end);
-    }
+    };
 
 
   }]);

@@ -6,6 +6,6 @@ angular.module('pubTran')
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'mainController'
-      })
+      });
   }])
   .run(['Sw', angular.noop]);
