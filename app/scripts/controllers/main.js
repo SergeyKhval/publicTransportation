@@ -22,10 +22,6 @@ angular.module('pubTran')
       $scope.loadingForm = false;
     });
 
-    $scope.validate = function () {
-
-    };
-
     $scope.getRealTimeSchedule = function () {
       $scope.loadingSchedules = true;
       $scope.schedules = {};

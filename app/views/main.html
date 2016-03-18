@@ -42,24 +42,31 @@
           <div class="col-xs-12" ng-hide="!schedules || loadingSchedules">
 
 
-            <table class="table table-striped">
-              <caption>Realtime schedule from <strong>{{selectedDeparture.name}}</strong> to
-                <strong>{{selectedArrival.name}}</strong></caption>
-              <thead>
-              <tr>
-                <th>#</th>
-                <th>{{selectedDeparture.name}}</th>
-                <th>{{selectedArrival.name}}</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr ng-repeat="schedule in schedules">
-                <td>{{$index + 1}}</td>
-                <td>{{schedule._origTimeMin}}</td>
-                <td>{{schedule._destTimeMin}}</td>
-              </tr>
-              </tbody>
-            </table>
+            <div ng-repeat="schedule in schedules">
+              <div ng-if="!schedule.leg.length">
+                <div class="trip {{schedule.leg._line}}">
+                  <div class="clearfix">
+                    <div class="trip__start station">
+                      <p class="station__abbr">{{schedule._origin}}</p>
+                      <p class="station__time">{{schedule._origTimeMin}}</p>
+                    </div>
+                    <div class="trip__end station">
+                      <p class="station__abbr">{{schedule._destination}}</p>
+                      <p class="station__time">{{schedule._destTimeMin}}</p>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+              <div ng-if="schedule.leg.length > 1">
+                <div ng-repeat="leg in schedule.leg">
+                  {{leg._origTimeMin}}
+                  {{leg._destTimeMin}}
+                  {{leg._line}}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -72,17 +79,17 @@
             <table class="table table-striped">
               <caption>Schedule for <strong>{{selectedDeparture.name}}</strong> station</caption>
               <thead>
-              <th>#</th>
-              <th>Heading to</th>
               <th>Departs at</th>
+              <th>Destination</th>
               <th>Arrives at</th>
+              <th>Line</th>
               </thead>
               <tbody>
               <tr ng-repeat="item in stationSchedulePage">
-                <td>{{$index + ((currentPage-1) * 20) + 1}}</td>
-                <td>{{item._trainHeadStation}}</td>
                 <td>{{item._origTime}}</td>
+                <td>{{item._trainHeadStation}}</td>
                 <td>{{item._destTime}}</td>
+                <td>{{item._line}}</td>
               </tr>
               </tbody>
             </table>
