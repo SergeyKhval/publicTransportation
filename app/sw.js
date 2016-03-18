@@ -13,7 +13,6 @@ var resourcesToCache = [
   'scripts/services/stations.js',
   'scripts/services/schedule.js',
   'scripts/controllers/main.js',
-  'scripts/templates/uibPagination.js',
 
   'bower_components/jquery/dist/jquery.js',
   'bower_components/angular/angular.js',
