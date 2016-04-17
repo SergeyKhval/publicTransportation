@@ -12,7 +12,8 @@
     "angular-touch": "^1.5.0",
     "indexeddb-promised": "https://github.com/jakearchibald/indexeddb-promised.git",
     "font-awesome": "^4.5.0",
-    "bootstrap-material-design": "^0.5.9"
+    "bootstrap-material-design": "^0.5.9",
+    "arrive": "^2.3.1"
   },
   "overrides": {
     "indexeddb-promised": {
