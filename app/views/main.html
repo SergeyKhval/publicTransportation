@@ -1,104 +1,99 @@
 <div class="row">
-  <div class="col-xs-12">
-    <div class="well">
-      <div class="card-header">
-        <h3>Please, choose your departure and arrival stations</h3>
+  <div class="col-md-4">
+    <p class="lead">Please, choose your departure and arrival stations</p>
+    <div class="loading text-xs-center" ng-show="loadingForm">
+      <i class="fa fa-spinner"></i>
+    </div>
+    <div class="row" ng-hide="loadingForm">
+      <div class="col-xs-12">
+        <div class="form-group"><label for="departure">Departure
+          station</label>
+          <select name="departure" id="departure" class="form-control"
+                  ng-options="station as station.name for station in stations"
+                  ng-change="getRealTimeSchedule()"
+                  ng-model="selectedDeparture"></select></div>
       </div>
-      <div class="card-block">
-        <div class="loading text-xs-center" ng-show="loadingForm">
-          <i class="fa fa-spinner"></i>
+      <div class="col-xs-12">
+        <div class="form-group"><label for="arrival">Arrival station:</label>
+          <select name="arrival" id="arrival" class="form-control"
+                  ng-options="station as station.name for station in stations"
+                  ng-change="getRealTimeSchedule()"
+                  ng-model="selectedArrival"></select></div>
+      </div>
+      <div class="col-xs-12">
+        <div class="form-group"><label>Ready to go? Push the button</label>
+          <button class="btn btn-primary btn-raised" ng-click="getStationSchedule()">Show schedule</button>
         </div>
-        <div class="row" ng-hide="loadingForm">
-          <div class="col-md-3">
-            <div class="form-group"><label class="control-label" for="departure">Departure
-              station</label>
-              <select name="departure" id="departure" class="form-control"
-                      ng-options="station as station.name for station in stations"
-                      ng-change="getRealTimeSchedule()"
-                      ng-model="selectedDeparture"></select></div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group"><label class="control-label" for="arrival">Arrival station:</label>
-              <select name="arrival" id="arrival" class="form-control"
-                      ng-options="station as station.name for station in stations"
-                      ng-change="getRealTimeSchedule()"
-                      ng-model="selectedArrival"></select></div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group"><label class="form-control-label p-l-0">Ready to go? Push the button</label>
-              <button class="btn btn-primary btn-primary-outline" ng-click="getStationSchedule()">Show schedule</button>
-            </div>
-          </div>
+      </div>
 
-          <div class="col-xs-12" ng-show="error">
-            <p class="bg-danger">{{error}}</p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="loading text-xs-center" ng-show="loadingSchedules">
-            <i class="fa fa-spinner"></i>
-          </div>
-          <div class="col-xs-12" ng-hide="!schedules || loadingSchedules">
+      <div class="col-xs-12" ng-show="error">
+        <p class="bg-danger">{{error}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="row">
+      <div class="loading text-xs-center" ng-show="loadingSchedules">
+        <i class="fa fa-spinner"></i>
+      </div>
+      <div class="col-xs-12" ng-hide="!schedules || loadingSchedules">
 
 
-            <div ng-repeat="schedule in schedules">
-              <div ng-if="!schedule.leg.length">
-                <div class="trip {{schedule.leg._line}}">
-                  <div class="clearfix">
-                    <div class="trip__start station">
-                      <p class="station__abbr">{{schedule._origin}}</p>
-                      <p class="station__time">{{schedule._origTimeMin}}</p>
-                    </div>
-                    <div class="trip__end station">
-                      <p class="station__abbr">{{schedule._destination}}</p>
-                      <p class="station__time">{{schedule._destTimeMin}}</p>
-                    </div>
-                  </div>
+        <div ng-repeat="schedule in schedules">
+          <div ng-if="!schedule.leg.length">
+            <div class="trip {{schedule.leg._line}}">
+              <div class="clearfix">
+                <div class="trip__start station">
+                  <p class="station__abbr">{{schedule._origin}}</p>
+                  <p class="station__time">{{schedule._origTimeMin}}</p>
                 </div>
-
-
-              </div>
-              <div ng-if="schedule.leg.length > 1">
-                <div ng-repeat="leg in schedule.leg">
-                  {{leg._origTimeMin}}
-                  {{leg._destTimeMin}}
-                  {{leg._line}}
+                <div class="trip__end station">
+                  <p class="station__abbr">{{schedule._destination}}</p>
+                  <p class="station__time">{{schedule._destTimeMin}}</p>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div class="row" ng-show="stationSchedule">
 
-          <div class="loading text-xs-center" ng-show="loadingStationSchedules">
-            <i class="fa fa-spinner"></i>
           </div>
-          <div class="col-xs-12" ng-hide="loadingStationSchedules">
-            <table class="table table-striped">
-              <caption>Schedule for <strong>{{selectedDeparture.name}}</strong> station</caption>
-              <thead>
-              <th>Departs at</th>
-              <th>Destination</th>
-              <th>Arrives at</th>
-              <th>Line</th>
-              </thead>
-              <tbody>
-              <tr ng-repeat="item in stationSchedulePage">
-                <td>{{item._origTime}}</td>
-                <td>{{item._trainHeadStation}}</td>
-                <td>{{item._destTime}}</td>
-                <td>{{item._line}}</td>
-              </tr>
-              </tbody>
-            </table>
-            <uib-pagination template-url="templates/pagination.html" direction-links="false" boundary-link-numbers="true" total-items="totalItems" max-size="5"
-                            ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+          <div ng-if="schedule.leg.length > 1">
+            <div ng-repeat="leg in schedule.leg">
+              {{leg._origTimeMin}}
+              {{leg._destTimeMin}}
+              {{leg._line}}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
+    <div class="row" ng-show="stationSchedule">
+
+      <div class="loading text-xs-center" ng-show="loadingStationSchedules">
+        <i class="fa fa-spinner"></i>
+      </div>
+      <div class="col-xs-12" ng-hide="loadingStationSchedules">
+        <table class="table table-striped">
+          <caption>Schedule for <strong>{{selectedDeparture.name}}</strong> station</caption>
+          <thead>
+          <th>Departs at</th>
+          <th>Destination</th>
+          <th>Arrives at</th>
+          <th>Line</th>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in stationSchedulePage">
+            <td>{{item._origTime}}</td>
+            <td>{{item._trainHeadStation}}</td>
+            <td>{{item._destTime}}</td>
+            <td>{{item._line}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <uib-pagination template-url="templates/pagination.html" direction-links="false"
+                        boundary-link-numbers="true" total-items="totalItems" max-size="5"
+                        ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+      </div>
+    </div>
+  </div>
 </div>
