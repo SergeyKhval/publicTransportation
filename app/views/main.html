@@ -1,0 +1,91 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="card">
+      <div class="card-header">
+        <h3>Please, choose your departure and arrival stations</h3>
+      </div>
+      <div class="card-block">
+        <div class="loading text-xs-center" ng-show="loadingForm">
+          <i class="fa fa-spinner"></i>
+        </div>
+        <div class="row" ng-hide="loadingForm">
+          <div class="col-md-3">
+            <div class="form-group"><label class="form-control-label p-l-0" for="departure">Departure
+              station</label>
+              <select name="departure" id="departure" class="c-select"
+                      ng-options="station as station.name for station in stations"
+                      ng-change="validate()"
+                      ng-model="selectedDeparture"></select></div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group"><label class="form-control-label p-l-0" for="arrival">Arrival station:</label>
+              <select name="arrival" id="arrival" class="c-select"
+                      ng-options="station as station.name for station in stations"
+                      ng-change="validate()"
+                      ng-model="selectedArrival"></select></div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group"><label class="form-control-label p-l-0">Ready to go? Push the button</label>
+              <button class="btn btn-primary btn-primary-outline" ng-click="getRealTimeSchedule()">Find schedule
+              </button>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group"><label class="form-control-label p-l-0">Ready to go? Push the button</label>
+              <button class="btn btn-primary btn-primary-outline" ng-click="getStationSchedule()">Show schedule</button>
+            </div>
+          </div>
+
+          <div class="col-xs-12" ng-show="error">
+            <p class="bg-danger">{{error}}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="loading text-xs-center" ng-show="loadingSchedules">
+            <i class="fa fa-spinner"></i>
+          </div>
+          <div class="col-xs-12" ng-hide="!schedules || loadingSchedules">
+            <p>Realtime schedule from <strong>{{selectedDeparture.name}}</strong> to
+              <strong>{{selectedArrival.name}}</strong></p>
+
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>{{selectedDeparture.name}}</th>
+                <th>{{selectedArrival.name}}</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="schedule in schedules">
+                <td>{{$index + 1}}</td>
+                <td>{{schedule._origTimeMin}}</td>
+                <td>{{schedule._destTimeMin}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row" ng-show="stationSchedule">
+
+          <div class="loading text-xs-center" ng-show="loadingStationSchedules">
+            <i class="fa fa-spinner"></i>
+          </div>
+          <div class="col-xs-12" ng-hide="loadingStationSchedules">
+            <p>Schedule for <strong>{{selectedDeparture.name}}</strong></p>
+            <ul>
+              <li ng-repeat="item in stationSchedulePage">
+                {{item._origTime}}
+              </li>
+            </ul>
+            <uib-pagination direction-links="false" boundary-link-numbers="true" total-items="totalItems" max-size="5"
+                            ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

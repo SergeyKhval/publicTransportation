@@ -1,1 +1,7 @@
-console.log('\'Allo \'Allo!'); // eslint-disable-line no-console
+angular.module('pubTran', [
+  'ngAnimate',
+  'ngTouch',
+  'ngRoute',
+  'ui.bootstrap',
+  'cb.x2js'
+]);
