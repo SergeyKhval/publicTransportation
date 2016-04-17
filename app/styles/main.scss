@@ -3,8 +3,10 @@ $icon-font-path: '../fonts/';
 @import "utils/all";
 
 // bower:scss
-@import "bower_components/bootstrap/scss/bootstrap.scss";
+@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 @import "bower_components/font-awesome/scss/font-awesome.scss";
+@import "bower_components/bootstrap-material-design/sass/bootstrap-material-design.scss";
+@import "bower_components/bootstrap-material-design/sass/ripples.scss";
 // endbower
 
 @import "base/all";
