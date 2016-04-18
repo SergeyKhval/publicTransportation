@@ -36,7 +36,6 @@ angular.module('pubTran')
       Schedule.getRealTimeSchedule($scope.selectedDeparture.abbr, $scope.selectedArrival.abbr).then(function (data) {
         $scope.schedules = data.root.schedule.request.trip;
         $scope.loadingSchedules = false;
-        console.log($scope.schedules);
       });
     };
 

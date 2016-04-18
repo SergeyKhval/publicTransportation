@@ -1,6 +1,7 @@
 var resourcesToCache = [
   '/',
   'views/main.html',
+  'templates/pagination.html',
 
   'styles/main.css',
 
@@ -24,13 +25,16 @@ var resourcesToCache = [
   'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
   'bower_components/x2js/xml2json.min.js',
   'bower_components/angular-x2js/dist/x2js.min.js',
+  'bower_components/bootstrap-material-design/scripts/material.js',
+  'bower_components/bootstrap-material-design/scripts/ripples.js',
+  'bower_components/arrive/src/arrive.js',
   'bower_components/indexeddb-promised/lib/idb.js',
 
-  'bower_components/font-awesome/fonts/fontawesome-webfont.woff?v=4.5.0',
-  'bower_components/font-awesome/fonts/fontawesome-webfont.woff2?v=4.5.0',
-  'bower_components/font-awesome/fonts/fontawesome-webfont.eot?v=4.5.0',
-  'bower_components/font-awesome/fonts/fontawesome-webfont.svg?v=4.5.0',
-  'bower_components/font-awesome/fonts/fontawesome-webfont.ttf?v=4.5.0',
+  'bower_components/font-awesome/fonts/fontawesome-webfont.woff?v=4.6.1',
+  'bower_components/font-awesome/fonts/fontawesome-webfont.woff2?v=4.6.1',
+  'bower_components/font-awesome/fonts/fontawesome-webfont.eot?v=4.6.1',
+  'bower_components/font-awesome/fonts/fontawesome-webfont.svg?v=4.6.1',
+  'bower_components/font-awesome/fonts/fontawesome-webfont.ttf?v=4.6.1',
   'bower_components/font-awesome/fonts/FontAwesome.otf?v=4.5.0'
 ];
 
