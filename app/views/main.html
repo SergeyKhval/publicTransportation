@@ -32,68 +32,31 @@
     </div>
   </div>
   <div class="col-md-8">
-    <div class="row">
-      <div class="loading text-xs-center" ng-show="loadingSchedules">
-        <i class="fa fa-spinner"></i>
-      </div>
-      <div class="col-xs-12" ng-hide="!schedules || loadingSchedules">
-
-
-        <div ng-repeat="schedule in schedules">
-          <div ng-if="!schedule.leg.length">
-            <div class="trip {{schedule.leg._line}}">
-              <div class="clearfix">
-                <div class="trip__start station">
-                  <p class="station__abbr">{{schedule._origin}}</p>
-                  <p class="station__time">{{schedule._origTimeMin}}</p>
-                </div>
-                <div class="trip__end station">
-                  <p class="station__abbr">{{schedule._destination}}</p>
-                  <p class="station__time">{{schedule._destTimeMin}}</p>
-                </div>
-              </div>
-            </div>
-
-
-          </div>
-          <div ng-if="schedule.leg.length > 1">
-            <div ng-repeat="leg in schedule.leg">
-              {{leg._origTimeMin}}
-              {{leg._destTimeMin}}
-              {{leg._line}}
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="loading text-xs-center" ng-show="loadingStationSchedules">
+      <i class="fa fa-spinner"></i>
     </div>
-
-    <div class="row" ng-show="stationSchedule">
-
-      <div class="loading text-xs-center" ng-show="loadingStationSchedules">
-        <i class="fa fa-spinner"></i>
-      </div>
-      <div class="col-xs-12" ng-hide="loadingStationSchedules">
-        <table class="table table-striped">
-          <caption>Schedule for <strong>{{selectedDeparture.name}}</strong> station</caption>
-          <thead>
-          <th>Departs at</th>
-          <th>Destination</th>
-          <th>Arrives at</th>
-          <th>Line</th>
-          </thead>
-          <tbody>
-          <tr ng-repeat="item in stationSchedulePage">
-            <td>{{item._origTime}}</td>
-            <td>{{item._trainHeadStation}}</td>
-            <td>{{item._destTime}}</td>
-            <td>{{item._line}}</td>
-          </tr>
-          </tbody>
-        </table>
-        <uib-pagination template-url="templates/pagination.html" direction-links="false"
-                        boundary-link-numbers="true" total-items="totalItems" max-size="5"
-                        ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
-      </div>
+    <div class="col-xs-12" ng-hide="loadingStationSchedules && !stationSchedulePage.length">
+      <table class="table table-striped">
+        <caption>Schedule for <strong>{{selectedDeparture.name}}</strong> station</caption>
+        <thead>
+        <th>Departs at</th>
+        <th>Destination</th>
+        <th>Arrives at</th>
+        <th>Line</th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in stationSchedulePage">
+          <td>{{item._origTime}}</td>
+          <td>{{item._trainHeadStation}}</td>
+          <td>{{item._destTime}}</td>
+          <td>{{item._line}}</td>
+        </tr>
+        </tbody>
+      </table>
+      <uib-pagination template-url="templates/pagination.html" direction-links="false"
+                      boundary-link-numbers="true" total-items="totalItems" max-size="5"
+                      ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
     </div>
   </div>
+</div>
 </div>
