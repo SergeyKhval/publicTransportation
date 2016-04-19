@@ -6,12 +6,20 @@
     </div>
     <div class="row" ng-hide="loadingForm">
       <div class="col-xs-12">
-        <div class="form-group"><label for="departure">Departure
-          station</label>
+        <div class="form-group">
+          <label for="departure">Departure station</label>
           <select name="departure" id="departure" class="form-control"
                   ng-options="station as station.name for station in stations"
                   ng-change="getStationSchedule()"
-                  ng-model="selectedDeparture"></select></div>
+                  ng-model="selectedDeparture"></select>
+        </div>
+
+        <div class="form-group">
+          <label for="arrival">Arrival sation:</label>
+          <select name="arrival" id="arrival" class="form-control"
+                  ng-options="station as station.name for station in stations"
+                  ng-model="selectedArrival"></select>
+        </div>
       </div>
 
       <div class="col-xs-12" ng-show="error">
@@ -33,7 +41,7 @@
         <th>Line</th>
         </thead>
         <tbody>
-        <tr ng-repeat="item in stationSchedulePage">
+        <tr ng-repeat="item in (stationSchedule | filter:selectedArrival.abbr | limitTo: itemsPerPage: itemsPerPage * (currentPage - 1))">
           <td>{{item._origTime}}</td>
           <td>{{item._trainHeadStation}}</td>
           <td>{{item._destTime}}</td>
@@ -42,7 +50,7 @@
         </tbody>
       </table>
       <uib-pagination template-url="templates/pagination.html" direction-links="false"
-                      boundary-link-numbers="true" total-items="totalItems" max-size="5"
+                      boundary-link-numbers="true" total-items="totalItems" items-per-page="itemsPerPage"
                       ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
     </div>
   </div>

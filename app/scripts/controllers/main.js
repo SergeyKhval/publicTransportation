@@ -2,18 +2,26 @@
 
 angular.module('pubTran')
   .controller('mainController', ['$scope', 'Stations', 'Schedule', function ($scope, Stations, Schedule) {
-    var paginationDefaultCount = 10;
-    var itemsPerStationSchedulePage = 20;
-    var paginationLength = paginationDefaultCount / itemsPerStationSchedulePage;
+
+    $scope.stationSchedule = [];
 
     $scope.loadingForm = true;
     $scope.loadingStationSchedules = true;
     $scope.error = '';
+
+    $scope.itemsPerPage = 20;
+    $scope.totalItems = $scope.stationSchedule.filter(function(item){return item._trainHeadStation === $scope.selectedArrival.abbr;}).length;
     $scope.currentPage = 1;
+
+    $scope.$watch('selectedArrival', function(newVal){
+      $scope.totalItems = $scope.stationSchedule.filter(function(item){return item._trainHeadStation === newVal.abbr;}).length;
+    });
+
 
     Stations.getAll().then(function (data) {
       $scope.stations = data;
       $scope.selectedDeparture = $scope.stations[0];
+      $scope.selectedArrival = $scope.stations[1];
 
       $scope.getStationSchedule();
 
@@ -26,19 +34,10 @@ angular.module('pubTran')
       Schedule.getStationSchedule($scope.selectedDeparture.abbr).then(function (data) {
         $scope.currentPage = 1;
         $scope.stationSchedule = data.root.station.item;
-        $scope.stationSchedulePage = $scope.stationSchedule.slice(0, itemsPerStationSchedulePage);
-        $scope.totalItems = $scope.stationSchedule.length * paginationLength;
+        $scope.totalItems = $scope.stationSchedule.length;
 
         $scope.loadingStationSchedules = false;
       });
-    };
-
-
-    $scope.pageChanged = function () {
-      var begin = itemsPerStationSchedulePage * ($scope.currentPage - 1);
-      var end = begin + itemsPerStationSchedulePage;
-
-      $scope.stationSchedulePage = $scope.stationSchedule.slice(begin, end);
     };
 
 
