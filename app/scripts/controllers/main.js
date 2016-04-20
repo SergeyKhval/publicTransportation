@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pubTran')
-  .controller('mainController', ['$scope', 'Stations', 'Schedule', function ($scope, Stations, Schedule) {
+  .controller('mainController', ['$scope', 'Stations', 'Schedule', 'Routes', function ($scope, Stations, Schedule, Routes) {
 
     $scope.stationSchedule = [];
 
@@ -10,11 +10,15 @@ angular.module('pubTran')
     $scope.error = '';
 
     $scope.itemsPerPage = 20;
-    $scope.totalItems = $scope.stationSchedule.filter(function(item){return item._trainHeadStation === $scope.selectedArrival.abbr;}).length;
+    $scope.totalItems = $scope.stationSchedule.filter(function (item) {
+      return item._trainHeadStation === $scope.selectedArrival.abbr;
+    }).length;
     $scope.currentPage = 1;
 
-    $scope.$watch('selectedArrival', function(newVal){
-      $scope.totalItems = $scope.stationSchedule.filter(function(item){return item._trainHeadStation === newVal.abbr;}).length;
+    $scope.$watch('selectedArrival', function (newVal) {
+      $scope.totalItems = $scope.stationSchedule.filter(function (item) {
+        return item._trainHeadStation === newVal.abbr;
+      }).length;
     });
 
 
@@ -40,5 +44,9 @@ angular.module('pubTran')
       });
     };
 
+    Routes.getAll().then(() => {
+      $scope.routes = Routes.routes;
+      console.log($scope.routes);
+    });
 
   }]);
