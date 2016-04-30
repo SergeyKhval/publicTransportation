@@ -12,8 +12,12 @@ angular.module('pubTran')
       }
 
       return idb.open(idbName, idbVersion, function (upgradeDb) {
-        upgradeDb.createObjectStore('stations', {keyPath: 'abbr'});
-        upgradeDb.createObjectStore('routes');
+        switch (upgradeDb.oldVersion) {
+          case 0:
+            upgradeDb.createObjectStore('stations', {keyPath: 'abbr'});
+          case 1:
+            upgradeDb.createObjectStore('trains');
+        }
       });
     };
 

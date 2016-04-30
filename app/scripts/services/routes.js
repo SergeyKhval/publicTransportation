@@ -19,17 +19,29 @@ angular.module('pubTran')
 
     function storeRoutesInDb(routePromises) {
       Promise.all(routePromises).then(routes => {
+        let trainId = -1;
+
         dbPromise.then(function (db) {
           if (!db) {
             return;
           }
 
-          var tx = db.transaction('routes', 'readwrite');
-          var routesStore = tx.objectStore('routes');
+          var tx = db.transaction('trains', 'readwrite');
+          var trainsStore = tx.objectStore('trains');
 
           routes.forEach(route => {
             let routeJson = jsonify(route.data);
-            routesStore.put(routeJson);
+            let routeNumber = routeJson.root.uri.split('=').pop();
+
+            routeJson.root.route.train.forEach(train => {
+              let trainObj = {
+                routeNumber: routeNumber,
+                stops: train.stop
+              };
+
+              trainsStore.put(trainObj, ++trainId);
+            });
+
           });
         });
       });
