@@ -4,7 +4,7 @@ angular.module('pubTran')
   .factory('Idb', ['idbName', 'idbVersion', function (idbName, idbVersion) {
     var Idb = {};
 
-    Idb.openConnection = function () {
+    function openConnection() {
       // If the browser doesn't support service worker,
       // we don't care about having a database
       if (!navigator.serviceWorker) {
@@ -20,6 +20,8 @@ angular.module('pubTran')
         }
       });
     };
+
+    Idb.connectionPromise = openConnection();
 
     return Idb;
   }]);

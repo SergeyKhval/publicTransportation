@@ -3,7 +3,7 @@
 angular.module('pubTran')
   .factory('Stations', ['$http', 'x2js', 'bartKey', 'Idb', function ($http, x2js, bartKey, Idb) {
     var Stations = {};
-    var dbPromise = Idb.openConnection();
+    var dbPromise = Idb.connectionPromise;
 
     Stations.getAll = function () {
       return $http({
@@ -26,7 +26,7 @@ angular.module('pubTran')
         });
 
         return stations;
-      }).catch(function(){
+      }).catch(function () {
         return dbPromise.then(function (db) {
           if (!db) {
             return;

@@ -47,7 +47,7 @@ angular.module('pubTran')
       });
     }
 
-    let dbPromise = Idb.openConnection();
+    let dbPromise = Idb.connectionPromise;
 
     let Routes = {};
 
