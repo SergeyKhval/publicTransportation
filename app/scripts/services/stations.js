@@ -5,39 +5,56 @@ angular.module('pubTran')
     var Stations = {};
     var dbPromise = Idb.connectionPromise;
 
-    Stations.getAll = function () {
+    function getStationsFromServer() {
       return $http({
         method: 'GET',
         url: 'http://api.bart.gov/api/stn.aspx?cmd=stns&key=' + bartKey
-      }).then(function (response) {
-        var stations = x2js.xml_str2json(response.data).root.stations.station;
+      })
+    }
 
-        dbPromise.then(function (db) {
-          if (!db) {
-            return;
-          }
+    function getStationsFromIdb() {
+      return dbPromise.then(function (db) {
+        if (!db) {
+          return;
+        }
 
-          var tx = db.transaction('stations', 'readwrite');
-          var stationsStore = tx.objectStore('stations');
+        var tx = db.transaction('stations');
+        var stationsStore = tx.objectStore('stations');
 
-          stations.forEach(function (station) {
-            stationsStore.put(station);
-          });
-        });
+        return stationsStore.getAll();
+      });
+    }
 
-        return stations;
-      }).catch(function () {
-        return dbPromise.then(function (db) {
-          if (!db) {
-            return;
-          }
+    function saveStationsToIdb(stations) {
+      dbPromise.then(function (db) {
+        if (!db) {
+          return;
+        }
 
-          var tx = db.transaction('stations');
-          var stationsStore = tx.objectStore('stations');
+        var tx = db.transaction('stations', 'readwrite');
+        var stationsStore = tx.objectStore('stations');
 
-          return stationsStore.getAll();
+        stations.forEach(function (station) {
+          stationsStore.put(station);
         });
       });
+    }
+
+    Stations.getAll = function () {
+      return getStationsFromIdb().then(stations => {
+        if (!stations.length) {
+          return getStationsFromServer().then(function (response) {
+            let stations = x2js.xml_str2json(response.data).root.stations.station;
+
+            saveStationsToIdb(stations);
+
+            return stations;
+          })
+        } else {
+          return stations;
+        }
+      })
+
     };
 
     return Stations;
