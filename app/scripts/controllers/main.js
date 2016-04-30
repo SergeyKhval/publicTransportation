@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pubTran')
-  .controller('mainController', ['$scope', 'Stations', 'Schedule', 'Routes', function ($scope, Stations, Schedule, Routes) {
+  .controller('mainController', ['$scope', 'Stations', 'Routes', function ($scope, Stations, Routes) {
 
     function filterByFirstStation(routes, station) {
       let result = [];
@@ -100,8 +100,6 @@ angular.module('pubTran')
       let filteredRoutes = filterByFirstStation(Routes.routes, 'PITT'),
         filteredBySecond = filterBySecondStation(filteredRoutes, 'PITT', '12TH'),
         schedule = filterUnneededStation(filteredBySecond, 'PITT', '12TH');
-
-      console.log(schedule);
     });
 
 
