@@ -13,6 +13,7 @@ angular.module('pubTran')
 
       return idb.open(idbName, idbVersion, function (upgradeDb) {
         upgradeDb.createObjectStore('stations', {keyPath: 'abbr'});
+        upgradeDb.createObjectStore('routes');
       });
     };
 

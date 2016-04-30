@@ -1,34 +1,48 @@
 'use strict';
 
 angular.module('pubTran')
-  .factory('Routes', ['$http', 'x2js', 'bartKey', function ($http, x2js, bartKey) {
-    function jsonify(response) {
-      return x2js.xml_str2json(response.data);
+  .factory('Routes', ['$http', 'x2js', 'bartKey', 'Idb', 'routeNumbers', function ($http, x2js, bartKey, Idb, routeNumbers) {
+    function jsonify(xml) {
+      return x2js.xml_str2json(xml);
     }
 
-    let Routes = {},
-      routeNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 19, 20];
-
-    Routes.routes = {};
-
-    Routes.getAll = function () {
-      let routePromise = Promise.resolve();
-
-      routeNumbers.forEach(number => {
+    function getRoutesFromNet() {
+      return routeNumbers.map(number => {
         let routesUrl = 'http://api.bart.gov/api/sched.aspx?cmd=routesched&route=' + number + '&key=' + bartKey;
 
-        routePromise = routePromise.then(() => {
-          return $http({
-            method: 'GET',
-            url: routesUrl
-          }).then(jsonify).then(result => {
-            Routes.routes[number] = result.root.route.train;
-          })
+        return $http({
+          method: 'GET',
+          url: routesUrl
         })
       });
+    }
 
-      return routePromise;
+    function storeRoutesInDb(routePromises) {
+      Promise.all(routePromises).then(routes => {
+        dbPromise.then(function (db) {
+          if (!db) {
+            return;
+          }
+
+          var tx = db.transaction('routes', 'readwrite');
+          var routesStore = tx.objectStore('routes');
+
+          routes.forEach(route => {
+            let routeJson = jsonify(route.data);
+            routesStore.put(routeJson);
+          });
+        });
+      });
+    }
+
+    let dbPromise = Idb.openConnection();
+
+    let Routes = {};
+
+    Routes.storeRoutes = function () {
+      storeRoutesInDb(getRoutesFromNet());
     };
 
     return Routes;
   }]);
+
