@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pubTran')
-  .controller('mainController', ['$scope', 'Stations', 'Routes', function ($scope, Stations, Routes) {
+  .controller('mainController', ['$scope', 'Stations', 'Trains', function ($scope, Stations, Trains) {
 
     function filterByFirstStation(routes, station) {
       let result = [];
@@ -85,15 +85,5 @@ angular.module('pubTran')
       $scope.loadingStationSchedules = false;
     };
 
-    // Routes.getAll().then(routes => {
-    //   console.log(routes);
-    //
-    //   let filteredRoutes = filterByFirstStation(Routes.routes, 'PITT'),
-    //     filteredBySecond = filterBySecondStation(filteredRoutes, 'PITT', '12TH'),
-    //     schedule = filterUnneededStation(filteredBySecond, 'PITT', '12TH');
-    // });
-
-    Routes.storeRoutes();
-
-
+    Trains.getAll().then(trains => console.log(trains));
   }]);

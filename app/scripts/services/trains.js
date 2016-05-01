@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('pubTran')
-  .factory('Routes', ['$http', 'x2js', 'bartKey', 'Idb', 'routeNumbers', function ($http, x2js, bartKey, Idb, routeNumbers) {
+  .factory('Trains', ['$http', 'x2js', 'bartKey', 'Idb', 'routeNumbers', function ($http, x2js, bartKey, Idb, routeNumbers) {
     function jsonify(xml) {
       return x2js.xml_str2json(xml);
     }
 
-    function getRoutesFromNet() {
+    function getRoutesFromServer() {
       return routeNumbers.map(number => {
         let routesUrl = 'http://api.bart.gov/api/sched.aspx?cmd=routesched&route=' + number + '&key=' + bartKey;
 
@@ -17,11 +17,11 @@ angular.module('pubTran')
       });
     }
 
-    function storeRoutesInDb(routePromises) {
-      Promise.all(routePromises).then(routes => {
+    function storeTrainsInIdb(routePromises) {
+      return Promise.all(routePromises).then(routes => {
         let trainId = -1;
 
-        dbPromise.then(function (db) {
+        return dbPromise.then(function (db) {
           if (!db) {
             return;
           }
@@ -47,14 +47,36 @@ angular.module('pubTran')
       });
     }
 
+    function getTrainsFromIdb() {
+      return dbPromise.then(function (db) {
+        if (!db) {
+          return;
+        }
+
+        var tx = db.transaction('trains');
+        var trainsStore = tx.objectStore('trains');
+
+        return trainsStore.getAll();
+      });
+    }
+
     let dbPromise = Idb.connectionPromise;
 
-    let Routes = {};
+    let Trains = {};
 
-    Routes.storeRoutes = function () {
-      storeRoutesInDb(getRoutesFromNet());
+    Trains.getAll = function () {
+      return getTrainsFromIdb().then(trains => {
+        if (!trains.length) {
+          return getRoutesFromServer().then(routePromises => {
+              storeTrainsInIdb(routePromises).then(() => getTrainsFromIdb());
+            }
+          )
+        } else {
+          return trains;
+        }
+      })
     };
 
-    return Routes;
+    return Trains;
   }]);
 
