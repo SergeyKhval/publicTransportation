@@ -60,7 +60,6 @@ angular.module('pubTran')
           return Promise.resolve(stations);
         }
       })
-
     };
 
     return Stations;

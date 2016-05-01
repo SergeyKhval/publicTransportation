@@ -12,7 +12,8 @@ var resourcesToCache = [
   'scripts/services/idb.js',
   'scripts/services/sw.js',
   'scripts/services/stations.js',
-  'scripts/services/schedule.js',
+  'scripts/services/trains.js',
+  'scripts/services/realTimeSchedule.js',
   'scripts/controllers/main.js',
 
   'bower_components/jquery/dist/jquery.js',
@@ -38,7 +39,7 @@ var resourcesToCache = [
   'bower_components/font-awesome/fonts/FontAwesome.otf?v=4.5.0'
 ];
 
-var staticCacheName = 'pubTran-static-v1';
+var staticCacheName = 'pubTran-static-v2';
 
 var allCaches = [
   staticCacheName
@@ -52,14 +53,13 @@ self.addEventListener('install', function (event) {
   );
 });
 
-self.addEventListener('activate', function(event) {
+self.addEventListener('activate', function (event) {
   event.waitUntil(
-    caches.keys().then(function(cacheNames) {
+    caches.keys().then(function (cacheNames) {
       return Promise.all(
-        cacheNames.filter(function(cacheName) {
-          return cacheName.startsWith('pubTran-') &&
-            !allCaches.includes(cacheName);
-        }).map(function(cacheName) {
+        cacheNames.filter(function (cacheName) {
+          return cacheName.startsWith('pubTran-') && !allCaches.includes(cacheName);
+        }).map(function (cacheName) {
           return caches.delete(cacheName);
         })
       );
@@ -67,9 +67,9 @@ self.addEventListener('activate', function(event) {
   );
 });
 
-self.addEventListener('fetch', function(event){
+self.addEventListener('fetch', function (event) {
   event.respondWith(
-    caches.match(event.request).then(function(response) {
+    caches.match(event.request).then(function (response) {
       return response || fetch(event.request);
     })
   );
