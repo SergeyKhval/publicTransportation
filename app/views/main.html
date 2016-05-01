@@ -4,13 +4,12 @@
     <div class="loading text-xs-center" ng-show="loadingForm">
       <i class="fa fa-spinner"></i>
     </div>
-    <div class="row" ng-hide="loadingForm">
+    <div class="row" ng-hide="false">
       <div class="col-xs-12">
         <div class="form-group">
           <label for="departure">Departure station</label>
           <select name="departure" id="departure" class="form-control"
                   ng-options="station as station.name for station in stations"
-                  ng-change="getStationSchedule()"
                   ng-model="selectedDeparture"></select>
         </div>
 
@@ -27,32 +26,33 @@
       </div>
     </div>
   </div>
-  <div class="col-md-8">
-    <div class="loading text-xs-center" ng-show="loadingStationSchedules">
-      <i class="fa fa-spinner"></i>
-    </div>
-    <div class="col-xs-12" ng-hide="loadingStationSchedules && stationSchedulePage.length">
-      <table class="table table-striped">
-        <caption>Schedule for <strong>{{selectedDeparture.name}}</strong> station</caption>
-        <thead>
-        <th>Departs at</th>
-        <th>Destination</th>
-        <th>Arrives at</th>
-        <th>Line</th>
-        </thead>
-        <tbody>
-        <tr ng-repeat="item in (stationSchedule | filter:selectedArrival.abbr | limitTo: itemsPerPage: itemsPerPage * (currentPage - 1))">
-          <td>{{item._origTime}}</td>
-          <td>{{item._trainHeadStation}}</td>
-          <td>{{item._destTime}}</td>
-          <td>{{item._line}}</td>
-        </tr>
-        </tbody>
-      </table>
-      <uib-pagination template-url="templates/pagination.html" direction-links="false"
-                      boundary-link-numbers="true" total-items="totalItems" items-per-page="itemsPerPage"
-                      ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
-    </div>
-  </div>
+  <!--<div class="col-md-8">-->
+  <!--<div class="loading text-xs-center" ng-show="loadingStationSchedules">-->
+  <!--<i class="fa fa-spinner"></i>-->
+  <!--</div>-->
+  <!--<div class="col-xs-12" ng-hide="loadingStationSchedules && stationSchedulePage.length">-->
+  <!--<table class="table table-striped">-->
+  <!--<caption>Schedule for <strong>{{selectedDeparture.name}}</strong> station</caption>-->
+  <!--<thead>-->
+  <!--<th>Departs at</th>-->
+  <!--<th>Destination</th>-->
+  <!--<th>Arrives at</th>-->
+  <!--<th>Line</th>-->
+  <!--</thead>-->
+  <!--<tbody>-->
+  <!--<tr-->
+  <!--ng-repeat="item in (stationSchedule | filter:selectedArrival.abbr | limitTo: itemsPerPage: itemsPerPage * (currentPage - 1))">-->
+  <!--<td>{{item._origTime}}</td>-->
+  <!--<td>{{item._trainHeadStation}}</td>-->
+  <!--<td>{{item._destTime}}</td>-->
+  <!--<td>{{item._line}}</td>-->
+  <!--</tr>-->
+  <!--</tbody>-->
+  <!--</table>-->
+  <!--<uib-pagination template-url="templates/pagination.html" direction-links="false"-->
+  <!--boundary-link-numbers="true" total-items="totalItems" items-per-page="itemsPerPage"-->
+  <!--ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>-->
+  <!--</div>-->
+  <!--</div>-->
 </div>
 </div>

@@ -2,8 +2,10 @@
 
 angular.module('pubTran')
   .factory('Stations', ['$http', 'x2js', 'bartKey', 'Idb', function ($http, x2js, bartKey, Idb) {
-    var Stations = {};
-    var dbPromise = Idb.connectionPromise;
+    let Stations = {
+      stationList: []
+    };
+    let dbPromise = Idb.connectionPromise;
 
     function getStationsFromServer() {
       return $http({
@@ -48,10 +50,14 @@ angular.module('pubTran')
 
             saveStationsToIdb(stations);
 
+            Stations.stationList = stations;
+
             return stations;
           })
         } else {
-          return stations;
+          this.stationList = stations;
+
+          return Promise.resolve(stations);
         }
       })
 

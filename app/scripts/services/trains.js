@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('pubTran')
-  .factory('Trains', ['$http', 'x2js', 'bartKey', 'Idb', 'routeNumbers', function ($http, x2js, bartKey, Idb, routeNumbers) {
+  .factory('Trains', ['$http', '$q', 'x2js', 'bartKey', 'Idb', 'routeNumbers', function ($http, $q, x2js, bartKey, Idb, routeNumbers) {
+    let dbPromise = Idb.connectionPromise;
+    let Trains = {
+      trainsList: []
+    };
+
     function jsonify(xml) {
       return x2js.xml_str2json(xml);
     }
@@ -19,6 +24,7 @@ angular.module('pubTran')
 
     function storeTrainsInIdb(routePromises) {
       return Promise.all(routePromises).then(routes => {
+        console.log(routes);
         let trainId = -1;
 
         return dbPromise.then(function (db) {
@@ -56,23 +62,24 @@ angular.module('pubTran')
         var tx = db.transaction('trains');
         var trainsStore = tx.objectStore('trains');
 
-        return trainsStore.getAll();
+        let trainsPromise = trainsStore.getAll();
+
+        trainsPromise.then(trains => {
+          Trains.trainsList = trains;
+        });
+
+        return trainsPromise;
       });
     }
-
-    let dbPromise = Idb.connectionPromise;
-
-    let Trains = {};
 
     Trains.getAll = function () {
       return getTrainsFromIdb().then(trains => {
         if (!trains.length) {
-          return getRoutesFromServer().then(routePromises => {
-              storeTrainsInIdb(routePromises).then(() => getTrainsFromIdb());
-            }
-          )
+          return storeTrainsInIdb(getRoutesFromServer()).then(() => getTrainsFromIdb());
         } else {
-          return trains;
+          let promise = $q.defer();
+          this.trainsList = trains;
+          return promise.resolve(trains);
         }
       })
     };

@@ -54,36 +54,16 @@ angular.module('pubTran')
       return result;
     }
 
-    $scope.stationSchedule = [];
-
     $scope.loadingForm = true;
-    $scope.loadingStationSchedules = true;
-    $scope.error = '';
 
-    $scope.itemsPerPage = 20;
-    $scope.totalItems = $scope.stationSchedule.filter(function (item) {
-      return item._trainHeadStation === $scope.selectedArrival.abbr;
-    }).length;
-    $scope.currentPage = 1;
-
-    $scope.$watch('selectedArrival', function (newVal) {
-      $scope.totalItems = $scope.stationSchedule.filter(function (item) {
-        return item._trainHeadStation === newVal.abbr;
-      }).length;
-    });
-
-
-    Stations.getAll().then(function (data) {
-      $scope.stations = data;
+    Stations.getAll().then(function () {
+      $scope.stations = Stations.stationList;
       $scope.selectedDeparture = $scope.stations[0];
       $scope.selectedArrival = $scope.stations[1];
-
       $scope.loadingForm = false;
     });
 
-    $scope.getStationSchedule = function () {
-      $scope.loadingStationSchedules = false;
-    };
-
-    Trains.getAll().then(trains => console.log(trains));
+    Trains.getAll().then(() => {
+      $scope.trains = Trains.trainsList;
+    })
   }]);
