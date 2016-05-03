@@ -1,17 +1,19 @@
 'use strict';
 
 angular.module('pubTran')
-  .factory('Schedule', ['$http', 'x2js', 'bartKey', function ($http, x2js, bartKey) {
+  .factory('Schedules', ['$http', 'x2js', 'bartKey', function ($http, x2js, bartKey) {
+    function jsonify(xml) {
+      return x2js.xml_str2json(xml);
+    }
+
     let Schedule = {};
 
-    function getRealTimeSchedule(departure, arrival) {
+    Schedule.getSchedule = function (departure, arrival) {
       return $http({
         method: 'GET',
         url: `http://api.bart.gov/api/sched.aspx?cmd=depart&orig=${departure}&dest=${arrival}&key=${bartKey}`
-      })
-    }
-
-    Schedule.getSchedule = getRealTimeSchedule;
+      }).then(response => jsonify(response.data));
+    };
 
     return Schedule;
   }]);

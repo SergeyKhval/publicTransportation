@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pubTran')
-  .controller('mainController', ['$scope', '$timeout', 'Schedule', 'Stations', 'Trains',
-    function ($scope, $timeout, Schedule, Stations, Trains) {
+  .controller('mainController', ['$scope', '$timeout', 'Schedules', 'Stations', 'Trains',
+    function ($scope, $timeout, Schedules, Stations, Trains) {
 
       function filterByFirstStation(routes, station) {
         let result = [];
@@ -18,7 +18,6 @@ angular.module('pubTran')
             result.push(stops);
           }
         }
-
         return result;
       }
 
@@ -56,6 +55,19 @@ angular.module('pubTran')
       }
 
       $scope.loadingForm = true;
+
+      $scope.getRealTimeSchedule = function (departureStation, arrivalStation) {
+        Schedules.getSchedule(departureStation.abbr, arrivalStation.abbr)
+          .then(json => {
+            $timeout(() => {
+              $scope.schedules = json.root.schedule.request.trip;
+              console.log($scope.schedules);
+            });
+          })
+          .catch(() => {
+            $scope.schedules = false;
+          })
+      };
 
       Stations.getAll().then(function () {
         $timeout(() => {
