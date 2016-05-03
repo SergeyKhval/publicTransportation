@@ -4,42 +4,17 @@ angular.module('pubTran')
   .controller('mainController', ['$scope', '$timeout', 'Schedules', 'Stations', 'Trains',
     function ($scope, $timeout, Schedules, Stations, Trains) {
 
-      function filterByFirstStation(routes, station) {
-        let result = [];
+      function filterByStations(trains, firstStation, secondStation) {
 
-        for (let route in routes) {
-          let stops = routes[route].filter(train => {
-            return train.stop.filter(stop => {
-                return stop._station === station;
-              }).length > 0
+        return trains.filter(train => {
+          return train.stops.some(stop => {
+            return stop._station === firstStation;
           });
-
-          if (stops.length) {
-            result.push(stops);
-          }
-        }
-        return result;
-      }
-
-      function filterBySecondStation(routes, firstStation, secondStation) {
-        let filteredByFirstStation = filterByFirstStation(routes, firstStation),
-          resultTrains = [];
-
-        filteredByFirstStation.forEach(trains => {
-          trains.forEach(train => {
-            let seenFirstStation = false,
-              seenFirstBeforeSecond = false;
-
-            for (let i = 0; i < train.stop.length; i++) {
-              if (train.stop[i]._station === firstStation) seenFirstStation = true;
-              if (train.stop[i]._station === secondStation && seenFirstStation) seenFirstBeforeSecond = true;
-            }
-
-            if (seenFirstBeforeSecond) resultTrains.push(train);
+        }).filter(train => {
+          return train.stops.some(stop => {
+            return stop._station === secondStation;
           });
-        });
-
-        return resultTrains;
+        })
       }
 
       function filterUnneededStation(trains, departureStation, arrivalStation) {
@@ -59,18 +34,21 @@ angular.module('pubTran')
           $scope.error = "Please, choose different departure and arrival stations";
           return;
         }
-        
+
         $scope.error = "";
 
         Schedules.getSchedule(departureStation.abbr, arrivalStation.abbr)
           .then(json => {
             $timeout(() => {
               $scope.schedules = json.root.schedule.request.trip;
-              console.log($scope.schedules);
             });
           })
           .catch(() => {
             $scope.schedules = false;
+
+            console.log($scope.trains);
+            let filteredStations = filterByStations($scope.trains, departureStation.abbr, arrivalStation.abbr);
+            console.log(filteredStations);
           })
       }
 
@@ -89,6 +67,8 @@ angular.module('pubTran')
       });
 
       Trains.getAll().then(() => {
-        $scope.trains = Trains.trainsList;
+        $timeout(() => {
+          $scope.trains = Trains.trainsList;
+        });
       })
     }]);
