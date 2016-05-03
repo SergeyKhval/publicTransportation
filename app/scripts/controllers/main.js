@@ -55,6 +55,13 @@ angular.module('pubTran')
       }
 
       function getRealTimeSchedule(departureStation, arrivalStation) {
+        if (departureStation === arrivalStation) {
+          $scope.error = "Please, choose different departure and arrival stations";
+          return;
+        }
+        
+        $scope.error = "";
+
         Schedules.getSchedule(departureStation.abbr, arrivalStation.abbr)
           .then(json => {
             $timeout(() => {
