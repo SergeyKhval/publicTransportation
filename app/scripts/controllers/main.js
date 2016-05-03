@@ -6,15 +6,9 @@ angular.module('pubTran')
 
       function filterByStations(trains, firstStation, secondStation) {
 
-        return trains.filter(train => {
-          return train.stops.some(stop => {
-            return stop._station === firstStation;
-          });
-        }).filter(train => {
-          return train.stops.some(stop => {
-            return stop._station === secondStation;
-          });
-        })
+        return trains
+          .filter(train => train.stops.some(stop => stop._station === firstStation))
+          .filter(train => train.stops.some(stop => stop._station === secondStation));
       }
 
       function filterUnneededStation(trains, departureStation, arrivalStation) {
