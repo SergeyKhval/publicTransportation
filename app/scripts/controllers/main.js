@@ -54,9 +54,7 @@ angular.module('pubTran')
         return result;
       }
 
-      $scope.loadingForm = true;
-
-      $scope.getRealTimeSchedule = function (departureStation, arrivalStation) {
+      function getRealTimeSchedule(departureStation, arrivalStation) {
         Schedules.getSchedule(departureStation.abbr, arrivalStation.abbr)
           .then(json => {
             $timeout(() => {
@@ -67,7 +65,11 @@ angular.module('pubTran')
           .catch(() => {
             $scope.schedules = false;
           })
-      };
+      }
+
+      $scope.loadingForm = true;
+
+      $scope.getRealTimeSchedule = getRealTimeSchedule;
 
       Stations.getAll().then(function () {
         $timeout(() => {
@@ -75,6 +77,7 @@ angular.module('pubTran')
           $scope.selectedDeparture = $scope.stations[0];
           $scope.selectedArrival = $scope.stations[1];
           $scope.loadingForm = false;
+          getRealTimeSchedule($scope.selectedDeparture, $scope.selectedArrival);
         })
       });
 

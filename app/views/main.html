@@ -28,7 +28,28 @@
       </div>
     </div>
   </div>
-  <div class="col-md-8"></div>
+  <div class="col-md-8">
+    <div ng-show="schedules.length > 0">
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <caption align="top">Nearest trains from <strong>{{selectedDeparture.name}}</strong> to <strong>{{selectedArrival.name}}</strong>
+          </caption>
+          <thead>
+          <tr></tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="schedule in schedules">
+            <td>{{schedule._origin}}</td>
+            <td>{{schedule._origTimeMin}}</td>
+            <td>{{schedule._destTimeMin}}</td>
+            <td>{{schedule._destination}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div ng-hide="schedules">No schedules</div>
+  </div>
   <!--<div class="col-md-8">-->
   <!--<div class="loading text-xs-center" ng-show="loadingStationSchedules">-->
   <!--<i class="fa fa-spinner"></i>-->
