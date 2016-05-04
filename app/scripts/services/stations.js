@@ -11,7 +11,7 @@ angular.module('pubTran')
       return $http({
         method: 'GET',
         url: 'http://api.bart.gov/api/stn.aspx?cmd=stns&key=' + bartKey
-      })
+      });
     }
 
     function getStationsFromIdb() {
@@ -46,20 +46,20 @@ angular.module('pubTran')
       return getStationsFromIdb().then(stations => {
         if (!stations.length) {
           return getStationsFromServer().then(function (response) {
-            let stations = x2js.xml_str2json(response.data).root.stations.station;
+            let jsonStations = x2js.xml_str2json(response.data).root.stations.station;
 
-            saveStationsToIdb(stations);
+            saveStationsToIdb(jsonStations);
 
-            Stations.stationList = stations;
+            Stations.stationList = jsonStations;
 
-            return stations;
-          })
+            return jsonStations;
+          });
         } else {
           this.stationList = stations;
 
           return Promise.resolve(stations);
         }
-      })
+      });
     };
 
     return Stations;

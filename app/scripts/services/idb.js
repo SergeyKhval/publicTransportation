@@ -19,7 +19,7 @@ angular.module('pubTran')
             upgradeDb.createObjectStore('trains');
         }
       });
-    };
+    }
 
     Idb.connectionPromise = openConnection();
 

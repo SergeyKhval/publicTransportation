@@ -18,7 +18,7 @@ angular.module('pubTran')
         return $http({
           method: 'GET',
           url: routesUrl
-        })
+        });
       });
     }
 
@@ -81,7 +81,7 @@ angular.module('pubTran')
           this.trainsList = trains;
           return promise.resolve(trains);
         }
-      })
+      });
     };
 
     return Trains;

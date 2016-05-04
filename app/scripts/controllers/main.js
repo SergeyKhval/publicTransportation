@@ -1,3 +1,5 @@
+/*eslint no-underscore-dangle: ["error", { "allow": ["_station"] }]*/
+
 'use strict';
 
 angular.module('pubTran')
@@ -26,17 +28,17 @@ angular.module('pubTran')
           .map(train => {
             return train.stops.filter(stop => {
               return stop._station === departureStation || stop._station === arrivalStation;
-            })
+            });
           });
       }
 
       function getRealTimeSchedule(departureStation, arrivalStation) {
         if (departureStation === arrivalStation) {
-          $scope.error = "Departure and arrival stations must be different";
+          $scope.error = 'Departure and arrival stations must be different';
           return;
         }
 
-        $scope.error = "";
+        $scope.error = '';
 
         Schedules.getSchedule(departureStation.abbr, arrivalStation.abbr)
           .then(json => {
@@ -51,7 +53,7 @@ angular.module('pubTran')
               $scope.localSchedules = filterByStations(Trains.trainsList, departureStation.abbr, arrivalStation.abbr);
               console.log($scope.localSchedules);
             });
-          })
+          });
       }
 
       $scope.loadingForm = true;
@@ -65,12 +67,12 @@ angular.module('pubTran')
           $scope.selectedArrival = $scope.stations[1];
           $scope.loadingForm = false;
           getRealTimeSchedule($scope.selectedDeparture, $scope.selectedArrival);
-        })
+        });
       });
 
       Trains.getAll().then(() => {
         $timeout(() => {
           $scope.trains = Trains.trainsList;
         });
-      })
+      });
     }]);
