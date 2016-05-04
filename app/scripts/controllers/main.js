@@ -4,28 +4,35 @@ angular.module('pubTran')
   .controller('mainController', ['$scope', '$timeout', 'Schedules', 'Stations', 'Trains',
     function ($scope, $timeout, Schedules, Stations, Trains) {
 
-      function filterByStations(trains, firstStation, secondStation) {
+      function filterByStations(trains, departureStation, arrivalStation) {
 
         return trains
-          .filter(train => train.stops.some(stop => stop._station === firstStation))
-          .filter(train => train.stops.some(stop => stop._station === secondStation));
-      }
+          .filter(train => {
+            let departureIndex = 0,
+              arrivalIndex = 0;
 
-      function filterUnneededStation(trains, departureStation, arrivalStation) {
-        let result = [];
+            train.stops.forEach((stop, index) => {
+              if (stop._station === departureStation) {
+                departureIndex = index;
+              }
 
-        trains.forEach(train => {
-          result.push(train.stop.filter(stop => {
-            return (stop._station === departureStation || stop._station === arrivalStation);
-          }))
-        });
+              if (stop._station === arrivalStation) {
+                arrivalIndex = index;
+              }
+            });
 
-        return result;
+            return departureIndex > 0 && (arrivalIndex - departureIndex > 0);
+          })
+          .map(train => {
+            return train.stops.filter(stop => {
+              return stop._station === departureStation || stop._station === arrivalStation;
+            })
+          });
       }
 
       function getRealTimeSchedule(departureStation, arrivalStation) {
         if (departureStation === arrivalStation) {
-          $scope.error = "Please, choose different departure and arrival stations";
+          $scope.error = "Departure and arrival stations must be different";
           return;
         }
 
@@ -40,9 +47,10 @@ angular.module('pubTran')
           .catch(() => {
             $scope.schedules = false;
 
-            console.log($scope.trains);
-            let filteredStations = filterByStations($scope.trains, departureStation.abbr, arrivalStation.abbr);
-            console.log(filteredStations);
+            $timeout(() => {
+              $scope.localSchedules = filterByStations(Trains.trainsList, departureStation.abbr, arrivalStation.abbr);
+              console.log($scope.localSchedules);
+            });
           })
       }
 
