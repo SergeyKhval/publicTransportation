@@ -51,7 +51,6 @@ angular.module('pubTran')
 
             $timeout(() => {
               $scope.localSchedules = filterByStations(Trains.trainsList, departureStation.abbr, arrivalStation.abbr);
-              console.log($scope.localSchedules);
             });
           });
       }
