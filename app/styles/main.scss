@@ -1,11 +1,9 @@
 $icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
-$fa-font-path: "../bower_components/font-awesome/fonts";
 
 @import "utils/all";
 
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-@import "bower_components/font-awesome/scss/font-awesome.scss";
 @import "bower_components/bootstrap-material-design/sass/bootstrap-material-design.scss";
 @import "bower_components/bootstrap-material-design/sass/ripples.scss";
 // endbower
