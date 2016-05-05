@@ -39,7 +39,10 @@
       "quotes": [
         2,
         "single"
-      ]
+      ],
+      "no-underscore-dangle": "off",
+      "consistent-return": "off",
+      "no-fallthrough": "off"
     },
     "globals": {
       "angular": true,
