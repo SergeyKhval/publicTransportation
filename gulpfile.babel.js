@@ -5,6 +5,9 @@ import browserSync from 'browser-sync';
 import del from 'del';
 import {stream as wiredep} from 'wiredep';
 import ghPages from 'gulp-gh-pages';
+import runSequence from 'run-sequence';
+import path from 'path';
+import swPrecache from 'sw-precache';
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -82,13 +85,14 @@ gulp.task('images', () => {
 });
 
 gulp.task('fonts', () => {
-  return gulp.src(require('main-bower-files')('**/*.{eot,svg,ttf,woff,woff2}', function (err) {})
+  return gulp.src(require('main-bower-files')('**/*.{eot,svg,ttf,woff,woff2}', function (err) {
+    })
     .concat('app/fonts/**/*'))
     .pipe(gulp.dest('.tmp/fonts'))
     .pipe(gulp.dest('dist/fonts'));
 });
 
-gulp.task('copyFonts', function() {
+gulp.task('copyFonts', function () {
   gulp.src('./bower_components/font-awesome/fonts/**/*.{ttf,woff,eof,svg}')
     .pipe(gulp.dest('dist/bower_components/font-awesome/fonts'));
 });
@@ -96,7 +100,8 @@ gulp.task('copyFonts', function() {
 gulp.task('extras', () => {
   return gulp.src([
     'app/*.*',
-    '!app/*.html'
+    '!app/*.html',
+    '!app/service-worker.js'
   ], {
     dot: true
   }).pipe(gulp.dest('dist'));
@@ -104,7 +109,11 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
+gulp.task('serve', (cb) => {
+  runSequence(['styles', 'scripts', 'fonts'], 'worker-serve', 'prepare-serve', cb)
+});
+
+gulp.task('prepare-serve', () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -177,19 +186,26 @@ gulp.task('build', ['lint', 'html', 'htmlViews', 'images', 'fonts', 'copyFonts',
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
-gulp.task('default', ['clean'], () => {
-  gulp.start('build');
+gulp.task('default', (callback) => {
+  runSequence('clean', 'build', 'worker-build', callback);
 });
 
-gulp.task('deploy', function() {
+gulp.task('deploy', function () {
   return gulp.src('./dist/**/*')
     .pipe(ghPages());
 });
 
-gulp.task('generate-service-worker', function(callback) {
-  var path = require('path');
-  var swPrecache = require('sw-precache');
-  var rootDir = 'app';
+gulp.task('worker-serve', function (callback) {
+  let rootDir = 'app';
+
+  swPrecache.write(path.join(rootDir, 'service-worker.js'), {
+    staticFileGlobs: [rootDir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff}', './bower_components/*/*.js'],
+    stripPrefix: rootDir
+  }, callback);
+});
+
+gulp.task('worker-build', function (callback) {
+  let rootDir = 'dist';
 
   swPrecache.write(path.join(rootDir, 'service-worker.js'), {
     staticFileGlobs: [rootDir + '/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff}'],
