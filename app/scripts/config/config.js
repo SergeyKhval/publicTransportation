@@ -1,4 +1,5 @@
 angular.module('pubTran')
+  .constant('bartApi', 'https://api.bart.gov/api/')
   .constant('bartKey', 'MW9S-E7SL-26DU-VV8V')
   .constant('idbName', 'pubTran')
   .constant('idbVersion', 2)

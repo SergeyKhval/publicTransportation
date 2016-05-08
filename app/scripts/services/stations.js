@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pubTran')
-  .factory('Stations', ['$http', 'x2js', 'bartKey', 'Idb', function ($http, x2js, bartKey, Idb) {
+  .factory('Stations', ['$http', 'x2js', 'bartApi', 'bartKey', 'Idb', function ($http, x2js, bartApi, bartKey, Idb) {
     let Stations = {
       stationList: []
     };
@@ -10,7 +10,7 @@ angular.module('pubTran')
     function getStationsFromServer() {
       return $http({
         method: 'GET',
-        url: 'http://api.bart.gov/api/stn.aspx?cmd=stns&key=' + bartKey
+        url: bartApi + 'stn.aspx?cmd=stns&key=' + bartKey
       });
     }
 

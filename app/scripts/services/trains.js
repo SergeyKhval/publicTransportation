@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pubTran')
-  .factory('Trains', ['$http', '$q', 'x2js', 'bartKey', 'Idb', 'routeNumbers', function ($http, $q, x2js, bartKey, Idb, routeNumbers) {
+  .factory('Trains', ['$http', 'x2js', 'bartApi', 'bartKey', 'Idb', 'routeNumbers', function ($http, x2js, bartApi, bartKey, Idb, routeNumbers) {
     let dbPromise = Idb.connectionPromise;
     let Trains = {
       trainsList: []
@@ -13,7 +13,7 @@ angular.module('pubTran')
 
     function getRoutesFromServer() {
       return routeNumbers.map(number => {
-        let routesUrl = 'http://api.bart.gov/api/sched.aspx?cmd=routesched&route=' + number + '&key=' + bartKey;
+        let routesUrl = bartApi + 'sched.aspx?cmd=routesched&route=' + number + '&key=' + bartKey;
 
         return $http({
           method: 'GET',
@@ -24,7 +24,6 @@ angular.module('pubTran')
 
     function storeTrainsInIdb(routePromises) {
       return Promise.all(routePromises).then(routes => {
-        console.log(routes);
         let trainId = -1;
 
         return dbPromise.then(function (db) {
@@ -77,9 +76,8 @@ angular.module('pubTran')
         if (!trains.length) {
           return storeTrainsInIdb(getRoutesFromServer()).then(() => getTrainsFromIdb());
         } else {
-          let promise = $q.defer();
           this.trainsList = trains;
-          return promise.resolve(trains);
+          return Promise.resolve(trains);
         }
       });
     };

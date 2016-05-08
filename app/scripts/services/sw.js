@@ -13,8 +13,8 @@ angular.module('pubTran')
       return navigator.serviceWorker.register('/service-worker.js').then(function (reg) {
         console.log('registered worker with scope: ', reg.scope);
         return reg;
-      }).catch(function () {
-        console.log('failed to register worker');
+      }).catch(function (err) {
+        console.log('failed to register worker with error: ' + err);
       });
     }
 
